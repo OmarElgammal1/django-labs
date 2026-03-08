@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Students — {{ course.title }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'courses/css/students.css' %}">
+{% endblock %}
+
+{% block content %}
+<a href="javascript:history.back()" class="back-link">← Back to Courses</a>
+
+<div class="page-header">
+    <h1>Students in <span>{{ course.title }}</span></h1>
+    {% if course.description %}
+    <p style="color: #9a9ab0; margin-top: 6px;">{{ course.description }}</p>
+    {% endif %}
+    <div class="badge">{{ students|length }} student{{ students|length|pluralize }}</div>
+</div>
+
+{% if students %}
+<div class="student-grid">
+    {% for student in students %}
+    <div class="student-card">
+        <div class="student-avatar">
+            {% if student.image %}
+            <img src="{{ student.image.url }}" alt="{{ student.first_name }}">
+            {% else %}
+            {{ student.first_name|first }}
+            {% endif %}
+        </div>
+        <div class="student-info">
+            <div class="student-name">{{ student.first_name }} {{ student.last_name }}</div>
+            <div class="student-joined">Enrolled</div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">No students are enrolled in this course yet.</div>
+{% endif %}
+{% endblock %}

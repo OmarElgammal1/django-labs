@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}{{ instructor.first_name }}'s Courses{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'instructors/css/courses.css' %}">
+{% endblock %}
+
+{% block content %}
+<a href="{% url 'instructors:list' %}" class="back-link">← Back to Instructors</a>
+
+<div class="page-header">
+    <h1>Courses by <span>{{ instructor.first_name }} {{ instructor.last_name }}</span></h1>
+    {% if instructor.bio %}
+    <p>{{ instructor.bio }}</p>
+    {% endif %}
+</div>
+
+{% if courses %}
+<div class="course-list">
+    {% for course in courses %}
+    <a href="{% url 'courses:students' course.id %}" class="course-card">
+        <div class="course-info">
+            <div class="course-title">{{ course.title }}</div>
+            {% if course.description %}
+            <div class="course-desc">{{ course.description }}</div>
+            {% endif %}
+        </div>
+        <span class="arrow">→</span>
+    </a>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">This instructor hasn't been assigned any courses yet.</div>
+{% endif %}
+{% endblock %}

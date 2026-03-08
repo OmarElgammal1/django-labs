@@ -1,0 +1,37 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>hello</h1>
+
+    <form method="GET" action="">
+        <label for="track-select">Filter by Track:</label>
+        <select name="track" id="track-select" onchange="this.form.submit()">
+            <option value="">All</option>
+            <option value="AI" {% if request.GET.track == 'AI' %}selected{% endif %}>AI</option>
+            <option value="OS" {% if request.GET.track == 'OS' %}selected{% endif %}>OS</option>
+            <option value="Embedded" {% if request.GET.track == 'Embedded' %}selected{% endif %}>Embedded</option>
+        </select>
+    </form>
+
+    <div>
+        Filter by Track:
+        <a href="?">All</a> |
+        <a href="?track=AI">AI</a> |
+        <a href="?track=OS">OS</a> |
+        <a href="?track=Embedded">Embedded</a>
+    </div>
+    <ul>
+        {% for student in students %}
+        <!-- <li><a href="/students/{{ student.id }}">{{ student.name }} - {{ student.age }} </a></li> -->
+        <li><a href="{% url 'std_details' student.id %}">{{ student.name }} - {{ student.age }} - {{ student.track}}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+
+</html>

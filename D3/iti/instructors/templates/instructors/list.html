@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Our Instructors{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'instructors/css/list.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Our Instructors</h1>
+    <p>Meet the experts who guide your learning journey</p>
+</div>
+
+{% if instructors %}
+<div class="instructor-grid">
+    {% for instructor in instructors %}
+    <div class="instructor-card">
+        <div class="avatar">{{ instructor.first_name|first }}</div>
+        <div class="instructor-name">{{ instructor.first_name }} {{ instructor.last_name }}</div>
+        {% if instructor.bio %}
+        <div class="instructor-bio">{{ instructor.bio }}</div>
+        {% endif %}
+        <a href="{% url 'instructors:courses' instructor.id %}" class="view-courses-btn">View Courses →</a>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">No instructors available yet.</div>
+{% endif %}
+{% endblock %}
